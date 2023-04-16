@@ -1,0 +1,49 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.1.2' apply false
+    id 'org.jetbrains.kotlin.jvm' version '1.7.10' apply false
+}
+
+// =========================================================
+//                Dependency / Repositories
+// =========================================================
+
+repositories {
+    mavenCentral()
+}
+
+
+dependencies {
+    subprojects.forEach {
+        println it.name
+        implementation(project(it.name))
+    }
+}
+
+// =========================================================
+//                        Tasks
+// =========================================================
+
+build {
+    enabled = false
+}
+
+// =========================================================
+//                Subproject Predefines
+// =========================================================
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'com.github.johnrengelman.shadow'
+    apply plugin: 'org.jetbrains.kotlin.jvm'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+        compileOnly "io.arrow-kt:arrow-core:${rootProject.properties["arrow_version"]}"
+        compileOnly "io.insert-koin:koin-core:${koin_version}"
+    }
+}

@@ -1,0 +1,29 @@
+rootProject.name = 'Core'
+
+setupAllModuleFrom(file("modules"))
+
+def setupModule(String moduleName, String dir = "modules/${moduleName}") {
+    include(moduleName)
+    println moduleName
+    findProject(":${moduleName}")?.with {
+        name = moduleName
+        projectDir = new File(rootProject.projectDir, dir)
+    }
+}
+
+def setupAllModuleFrom(File directory) {
+    if (!directory.exists()) {
+        throw new FileNotFoundException("Target directory not exists")
+    }
+    if (!directory.isDirectory()) {
+        throw new IllegalAccessException("Target directory is file")
+    }
+    for (File file : directory.listFiles()) {
+        if (!file.isDirectory()) {
+            System.err.println("Non-directory file ${file.name} detected - Skipping.")
+            continue
+        }
+        setupModule(file.name, "${directory.name}/${file.name}")
+    }
+}
+
