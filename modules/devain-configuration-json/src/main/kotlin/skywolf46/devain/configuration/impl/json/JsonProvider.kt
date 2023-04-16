@@ -1,4 +1,4 @@
-package skywolf46.devain.configuration.impl
+package skywolf46.devain.configuration.impl.json
 
 import org.json.JSONArray
 import org.json.JSONObject
