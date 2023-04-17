@@ -1,5 +1,8 @@
 package skywolf46.devain.configuration.impl.yaml
 
+import arrow.core.Either
+import arrow.core.left
+import arrow.core.right
 import org.yaml.snakeyaml.Yaml
 import skywolf46.devain.configuration.Configuration
 import skywolf46.devain.configuration.ConfigurationList
@@ -19,12 +22,12 @@ object YamlProvider : ConfigurationProvider {
         return YamlList(list)
     }
 
-    override fun load(stream: DataInput): Configuration<*> {
+    override fun load(stream: DataInput): Either<Throwable, Configuration<*>> {
         val loaded = Yaml().load<Any>(stream.readUTF())
         if (loaded is List<*>)
-            return YamlList(loaded as List<Any>?)
+            return YamlList(loaded as List<Any>?).right()
         if (loaded is Map<*, *>)
-            return YamlMap(loaded as Map<String, Any>?)
-        throw IllegalStateException("Unknown object parsed while loading yaml string")
+            return YamlMap(loaded as Map<String, Any>?).right()
+        return IllegalStateException("Unknown object parsed while loading yaml string").left()
     }
 }
