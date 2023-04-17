@@ -7,7 +7,7 @@ import skywolf46.devain.configuration.ConfigurationMap
 import skywolf46.devain.configuration.ConfigurationProvider
 import java.io.DataInput
 
-class YamlProvider : ConfigurationProvider {
+object YamlProvider : ConfigurationProvider {
     override fun createMap(map: Map<String, Any>?): ConfigurationMap<*> {
         return YamlMap(map)
     }
