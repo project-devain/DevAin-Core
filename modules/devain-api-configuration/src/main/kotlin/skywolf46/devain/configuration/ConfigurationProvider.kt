@@ -1,5 +1,6 @@
 package skywolf46.devain.configuration
 
+import arrow.core.Either
 import java.io.DataInput
 
 interface ConfigurationProvider {
@@ -9,5 +10,5 @@ interface ConfigurationProvider {
 
     fun createList(list: List<Any>? = null): ConfigurationList<*>
 
-    fun load(stream: DataInput): Configuration<*>
+    fun load(stream: DataInput): Either<Throwable, Configuration<*>>
 }
