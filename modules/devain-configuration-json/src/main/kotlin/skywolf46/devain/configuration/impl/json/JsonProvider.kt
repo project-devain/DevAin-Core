@@ -1,5 +1,8 @@
 package skywolf46.devain.configuration.impl.json
 
+import arrow.core.Either
+import arrow.core.left
+import arrow.core.right
 import org.json.JSONArray
 import org.json.JSONObject
 import skywolf46.devain.configuration.Configuration
@@ -21,13 +24,13 @@ object JsonProvider : ConfigurationProvider {
         return JsonList(list)
     }
 
-    override fun load(stream: DataInput): Configuration<*> {
+    override fun load(stream: DataInput): Either<Throwable, Configuration<*>> {
         val text = stream.readUTF().trim()
         if (text.startsWith("["))
-            return JsonList(JSONArray(text));
+            return JsonList(JSONArray(text)).right()
         if (text.startsWith("{"))
-            return JsonMap(JSONObject(text))
-        throw IllegalStateException("Illegal JSON string")
+            return JsonMap(JSONObject(text)).right()
+        return IllegalStateException("Illegal JSON string").left()
     }
 
 }
