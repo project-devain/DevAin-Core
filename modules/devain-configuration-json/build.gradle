@@ -1,4 +1,0 @@
-dependencies {
-    api(project(":devain-api-configuration"))
-    implementation("org.json:json:20230227")
-}

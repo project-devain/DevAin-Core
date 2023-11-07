@@ -1,5 +1,0 @@
-dependencies {
-    api(project(":devain-api-configuration"))
-    implementation("org.yaml:snakeyaml:2.0")
-
-}
