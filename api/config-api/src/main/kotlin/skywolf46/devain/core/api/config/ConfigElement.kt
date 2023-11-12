@@ -6,19 +6,22 @@ import java.io.DataOutput
 interface ConfigElement<T : Any> {
     fun get(): T
 
-    fun cast(clazz: Class<*>): Either<Throwable, T>
+    fun <TARGET : Any> cast(clazz: Class<TARGET>): Either<Throwable, TARGET>
 
-    fun forceCast(clazz: Class<*>): T
+    fun export(output: DataOutput)
 
-    fun export(): DataOutput
-
+    fun classDeclaration() : Class<T>
 }
 
-inline fun <reified T : Any> ConfigElement<T>.cast(): Either<Throwable, T> {
+fun <T : Any> ConfigElement<*>.forceCast(clazz: Class<T>): T {
+    return cast(clazz).fold({ throw it }, { it })
+}
+
+inline fun <reified T : Any> ConfigElement<*>.cast(): Either<Throwable, T> {
     return cast(T::class.java)
 }
 
-inline fun <reified T : Any> ConfigElement<T>.forceCast(): T {
+inline fun <reified T : Any> ConfigElement<*>.forceCast(): T {
     return forceCast(T::class.java)
 }
 
