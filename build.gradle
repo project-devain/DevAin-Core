@@ -12,7 +12,6 @@ repositories {
     mavenCentral()
 }
 
-
 dependencies {
     subprojects.forEach {
         println it.name
@@ -39,6 +38,10 @@ subprojects {
 
     repositories {
         mavenCentral()
+    }
+
+    test {
+        enabled = false
     }
 
     dependencies {

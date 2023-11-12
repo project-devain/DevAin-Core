@@ -1,0 +1,31 @@
+plugins {
+    id 'maven-publish'
+}
+
+dependencies {
+    api(project(":core-api"))
+    api(project(":config-api"))
+    api(project(":event-api"))
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "Reposilite"
+            url(rootProject.properties['reposilite.release'])
+            allowInsecureProtocol(true)
+            credentials {
+                username rootProject.properties['reposilite.user'] as String
+                password rootProject.properties['reposilite.token'] as String
+            }
+        }
+    }
+    publications {
+        create("jar", MavenPublication) {
+            groupId 'skywolf46'
+            artifactId "devain-${project.name}"
+            version "${framework_version}" as String
+            from components.java
+        }
+    }
+}

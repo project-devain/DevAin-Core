@@ -1,6 +1,9 @@
 rootProject.name = 'DevAin-Core'
 
-setupAllModuleFrom(file("modules"))
+setupAllModuleFrom(file("api"))
+setupAllModuleFrom(file("platform"))
+setupAllModuleFrom(file("impl"))
+setupAllModuleFrom(file("runtime"))
 
 def setupModule(String moduleName, String dir = "modules/${moduleName}") {
     include(moduleName)
@@ -13,7 +16,8 @@ def setupModule(String moduleName, String dir = "modules/${moduleName}") {
 
 def setupAllModuleFrom(File directory) {
     if (!directory.exists()) {
-        throw new FileNotFoundException("Target directory not exists")
+        System.err.println("Target directory not exists; Skipping. (${directory.name})")
+        return
     }
     if (!directory.isDirectory()) {
         throw new IllegalAccessException("Target directory is file")

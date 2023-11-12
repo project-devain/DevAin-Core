@@ -1,0 +1,31 @@
+plugins {
+    id 'maven-publish'
+}
+
+dependencies {
+    api("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    api("io.arrow-kt:arrow-core:${rootProject.properties["arrow_version"]}")
+    api("io.insert-koin:koin-core:${koin_version}")
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "Reposilite"
+            url(rootProject.properties['reposilite.release'])
+            allowInsecureProtocol(true)
+            credentials {
+                username rootProject.properties['reposilite.user'] as String
+                password rootProject.properties['reposilite.token'] as String
+            }
+        }
+    }
+    publications {
+        create("jar", MavenPublication) {
+            groupId 'skywolf46'
+            artifactId "devain-${project.name}"
+            version "${framework_version}" as String
+            from components.java
+        }
+    }
+}
